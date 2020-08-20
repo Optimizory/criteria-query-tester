@@ -41,9 +41,9 @@ public class CriteriaTester {
         CriteriaTester criteriaTester = new CriteriaTester();
 
         List<Long> reqIds = new ArrayList<Long>();
-        reqIds.add(706L);
-        reqIds.add(800L);
-        List<String> result = criteriaTester.criteriaBuilder(reqIds);
+        reqIds.add(4010L);
+        reqIds.add(4011L);
+        List<RequirementDependency> result = criteriaTester.criteriaBuilder(reqIds);
         System.out.println(result);
         session.getTransaction().commit();
         CriteriaTester.shutdown();
@@ -51,7 +51,7 @@ public class CriteriaTester {
 
 
 
-    public List<String> criteriaBuilder(List<Long> dependencyIds){
+    public List<RequirementDependency> criteriaBuilder(List<Long> dependencyIds){
 
         if(dependencyIds != null && !dependencyIds.isEmpty()){
 
@@ -59,10 +59,12 @@ public class CriteriaTester {
                 getSessionFactory().openSession()
                     .createCriteria(RequirementDependency.class)
                     .createAlias("requirement","r")
+                    .add(Restrictions.in("requirementId", dependencyIds))
                     .add(Restrictions.eq("r.projectId",708L))
-                    .setProjection(Projections.property("r.requirementKey"))
+                        .setProjection(Projections.projectionList()
+                        .add(Projections.property("r.version")))
                     .list();
         }
-        return new ArrayList<String>();
+        return new ArrayList<RequirementDependency>();
     }
 }
