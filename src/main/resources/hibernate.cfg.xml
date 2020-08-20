@@ -1,0 +1,102 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="show_sql">true</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">abc123</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/rmsis</property>
+        <property name="hibernate.connection.driver">org.postgresql.Driver</property>
+        <mapping class="com.optimizory.rmsis.model.Project"/>
+        <mapping class="com.optimizory.rmsis.model.Category"/>
+        <mapping class="com.optimizory.rmsis.model.Priority"/>
+        <mapping class="com.optimizory.rmsis.model.Criticality"/>
+        <mapping class="com.optimizory.rmsis.model.TechnicalRisk"/>
+        <mapping class="com.optimizory.rmsis.model.Feasibility"/>
+        <mapping class="com.optimizory.rmsis.model.Comment"/>
+        <mapping class="com.optimizory.rmsis.model.ReleaseStatus"/>
+        <mapping class="com.optimizory.rmsis.model.ProjectRelease"/>
+        <mapping class="com.optimizory.rmsis.model.Role"/>
+        <mapping class="com.optimizory.rmsis.model.Operation"/>
+        <mapping class="com.optimizory.rmsis.model.RequirementStatus"/>
+        <mapping class="com.optimizory.rmsis.model.Requirement"/>
+        <mapping class="com.optimizory.rmsis.model.User"/>
+        <mapping class="com.optimizory.rmsis.model.Document"/>
+        <mapping class="com.optimizory.rmsis.model.Attachment"/>
+        <mapping class="com.optimizory.rmsis.model.AttachmentType"/>
+        <mapping class="com.optimizory.rmsis.model.RoleOperation"/>
+        <mapping class="com.optimizory.rmsis.model.ProjectUserRole"/>
+        <mapping class="com.optimizory.rmsis.model.ProjectUser"/>
+        <mapping class="com.optimizory.rmsis.model.Organization"/>
+        <mapping class="com.optimizory.rmsis.model.OrganizationUser"/>
+        <mapping class="com.optimizory.rmsis.model.ResourceType"/>
+        <mapping class="com.optimizory.rmsis.model.UserActivation"/>
+        <mapping class="com.optimizory.rmsis.model.Preference"/>
+        <mapping class="com.optimizory.rmsis.model.UserPreference"/>
+        <mapping class="com.optimizory.rmsis.model.License"/>
+        <mapping class="com.optimizory.rmsis.model.Artifact"/>
+        <mapping class="com.optimizory.rmsis.model.ArtifactType"/>
+        <mapping class="com.optimizory.rmsis.model.ProjectArtifactType"/>
+        <mapping class="com.optimizory.rmsis.model.ArtifactPriority"/>
+        <mapping class="com.optimizory.rmsis.model.ArtifactStatus"/>
+        <mapping class="com.optimizory.rmsis.model.RequirementDependency"/>
+        <mapping class="com.optimizory.rmsis.model.Config"/>
+        <mapping class="com.optimizory.rmsis.model.Baseline"/>
+        <mapping class="com.optimizory.rmsis.model.RequirementBaseline"/>
+        <mapping class="com.optimizory.rmsis.model.EntityType"/>
+        <mapping class="com.optimizory.rmsis.model.BaselineEntity"/>
+        <mapping class="com.optimizory.rmsis.model.ChangeGroup"/>
+        <mapping class="com.optimizory.rmsis.model.ChangeItem"/>
+        <mapping class="com.optimizory.rmsis.model.TestCase"/>
+        <mapping class="com.optimizory.rmsis.model.TestCaseStatus"/>
+        <mapping class="com.optimizory.rmsis.model.EntityLink"/>
+        <mapping class="com.optimizory.rmsis.model.RequirementHierarchy"/>
+        <mapping class="com.optimizory.rmsis.model.ArtifactRelease"/>
+        <mapping class="com.optimizory.rmsis.model.TestCycle"/>
+        <mapping class="com.optimizory.rmsis.model.TestCycleTestCase"/>
+        <mapping class="com.optimizory.rmsis.model.Filter"/>
+        <mapping class="com.optimizory.rmsis.model.NamedFilter"/>
+        <mapping class="com.optimizory.rmsis.model.FieldType"/>
+        <mapping class="com.optimizory.rmsis.model.CustomField"/>
+        <mapping class="com.optimizory.rmsis.model.FieldOption"/>
+        <mapping class="com.optimizory.rmsis.model.RequirementField"/>
+        <mapping class="com.optimizory.rmsis.model.TableColumnDisplay"/>
+        <mapping class="com.optimizory.rmsis.model.RequirementSource"/>
+        <mapping class="com.optimizory.rmsis.model.Reporting"/>
+        <mapping class="com.optimizory.rmsis.model.Workflow"/>
+        <mapping class="com.optimizory.rmsis.model.WorkflowTransition"/>
+        <mapping class="com.optimizory.rmsis.model.TestCaseCategory"/>
+        <mapping class="com.optimizory.rmsis.model.TestCaseDependency"/>
+        <mapping class="com.optimizory.rmsis.model.TestCycleTestCaseLog"/>
+        <mapping class="com.optimizory.rmsis.model.RequirementUserVote"/>
+        <mapping class="com.optimizory.rmsis.model.TestCaseCustomField"/>
+        <mapping class="com.optimizory.rmsis.model.TestCaseFieldOption"/>
+        <mapping class="com.optimizory.rmsis.model.TestCaseField"/>
+        <mapping class="com.optimizory.rmsis.model.ProjectCustomField"/>
+        <mapping class="com.optimizory.rmsis.model.TestStep"/>
+        <mapping class="com.optimizory.rmsis.model.TestCaseTestStep"/>
+        <mapping class="com.optimizory.rmsis.model.TestStepField"/>
+        <mapping class="com.optimizory.rmsis.model.TestCycleTestStep"/>
+        <mapping class="com.optimizory.rmsis.model.StatusComputeRule"/>
+        <mapping
+                class="com.optimizory.rmsis.model.StatusComputeRuleTestStepStatus"/>
+        <mapping class="com.optimizory.rmsis.model.CustomIdConfig"/>
+        <mapping class="com.optimizory.rmsis.model.RMsisSyncStatus"/>
+
+        <mapping class="com.optimizory.rmsis.model.ProjectRequirementCounter"/>
+        <mapping class="com.optimizory.rmsis.model.ProjectTestCaseCounter"/>
+
+        <mapping class="com.optimizory.rmsis.model.TemporaryStore"/>
+
+        <!-- JIRA related domain classes -->
+        <mapping class="com.optimizory.jira.model.Jira"/>
+        <mapping class="com.optimizory.jira.model.JiraSync"/>
+        <mapping class="com.optimizory.jira.model.JiraProject"/>
+        <mapping class="com.optimizory.jira.model.JiraUser"/>
+        <mapping class="com.optimizory.jira.model.JiraArtifact"/>
+        <mapping class="com.optimizory.jira.model.JiraArtifactType"/>
+    </session-factory>
+</hibernate-configuration>
