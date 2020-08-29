@@ -1,22 +1,20 @@
 package com.otpl.criteriatester;
 
 import com.optimizory.rmsis.model.*;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.*;
-import org.hibernate.service.ServiceRegistry;
-import org.hibernate.sql.JoinType;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 public class CriteriaTester {
 
     public static SessionFactory sessionFactory = buildSessionFactory();
-    public HibernateTemplate hibernateTemplate;
+    public static HibernateTemplate hibernateTemplate = new HibernateTemplate(sessionFactory);
 
     public static SessionFactory buildSessionFactory() {
 
@@ -32,6 +30,7 @@ public class CriteriaTester {
     public static SessionFactory getSessionFactory(){
         return sessionFactory;
     }
+    public static HibernateTemplate getHibernateTemplate() { return hibernateTemplate; }
 
     public static void shutdown(){
         getSessionFactory().close();
@@ -44,7 +43,7 @@ public class CriteriaTester {
 
         CriteriaTester criteriaTester = new CriteriaTester();
 
-        List<Long> reqIds = new ArrayList<Long>();
+        List<Object> reqIds = new ArrayList<Object>();
         reqIds.add(1799L);
         reqIds.add(4011L);
         List<RequirementDependency> result = criteriaTester.criteriaBuilder(reqIds);
@@ -55,27 +54,16 @@ public class CriteriaTester {
 
 
 
-    public List<RequirementDependency> criteriaBuilder(List<Long> requirementIds){
+    public List<RequirementDependency> criteriaBuilder(List<Object> requirementIds){
 
         if(requirementIds != null && !requirementIds.isEmpty()) {
 
-            DetachedCriteria subquery = DetachedCriteria.forClass(RequirementDependency.class)
-                    .createAlias("dependency", "r")
-                    .add(Restrictions.in("requirementId", requirementIds))
-                    .setProjection(Projections.projectionList()
-                            .add(Projections.max("r.version"), "rv")
-                            .add(Projections.groupProperty("requirementId"), "ri")
-                            .add(Projections.groupProperty("r.requirementKey"), "rk"));
+            String subquery = "(select max(r.version) from RequirementDependency as rd join rd.requirement as r " +
+                    " group by r.requirementKey, rd.dependencyId having r.requirementKey = req.requirementKey and rd.dependencyId = reqd.dependencyId)";
+            String query = "select reqd from RequirementDependency as reqd join reqd.requirement as req where req.version = " + subquery;
 
-            return
-
-                    getSessionFactory().openSession()
-                            .createCriteria(RequirementDependency.class)
-                            .createAlias("requirement", "r")
-                            .add(Restrictions.eqProperty("r.id", "requirementId"))
-                            .add(Subqueries.propertyEq("r.version", subquery))
-                            .setProjection(Projections.property("id"))
-                            .list();
+            Query subq = sessionFactory.openSession().createQuery(query);
+            return subq.list();
 
         }
         return new ArrayList<RequirementDependency>();
@@ -83,7 +71,9 @@ public class CriteriaTester {
 
     /*
 
-    HELPER STUBS
+    HELPER STUBS :
+
+    Criteria Query
 
     public {
         DetachedCriteria subquery = DetachedCriteria.forClass(RequirementDependency.class)
